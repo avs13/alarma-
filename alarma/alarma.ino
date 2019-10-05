@@ -86,4 +86,4 @@ void inicio(){
     oled.display();     
     break;
     delay(3000);
-}
+}//prueba de camnbio pc2
