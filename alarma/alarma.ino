@@ -75,7 +75,6 @@ void inicio(){
     oled.display();     
     break;
     delay(3000);
-<<<<<<< HEAD
 }
 void button(){
   if(digitalRead(2) == HIGH){
@@ -95,6 +94,3 @@ void button(){
     while(!digitalRead(4));
   }
 }
-=======
-}//prueba de camnbio pc2
->>>>>>> dbc286a34ccf9625da7219f4b54d8dbb7ecae022
