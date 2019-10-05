@@ -18,27 +18,13 @@ void setup() {
   menu(menupos);
 }
 void loop() {
-if(digitalRead(2) == HIGH) {
-  menuPos = menuPos - 1;
-  while(1){
-    if(digitalRead(2) != HIGH){
-      break;
-    }
-  }
-}
-if(digitalRead(3) == HIGH) {
-  menuPos = menuPos + 1;
-  while(1){
-    if(digitalRead(3) != HIGH){
-      break;
-    }
-  }
-}
-menu(menuPos);  
-
+button();
 }
 void menu(int posicion) {
   switch(posicion){
+    case 0:
+    menuPos = 1;
+    break;
     case 1:
     oled.clearDisplay();      
     oled.setTextColor(WHITE);   
@@ -74,6 +60,9 @@ void menu(int posicion) {
     oled.print("No se"); 
     oled.display();     
     break;
+    case 5:
+    menuPos = 4;
+    break;
   }
 }
 
@@ -86,4 +75,22 @@ void inicio(){
     oled.display();     
     break;
     delay(3000);
+}
+void button(){
+  if(digitalRead(2) == HIGH){
+    menuPos = menuPos - 1;
+    menu(menuPos);  
+    delay(100);
+    while(!digitalRead(2));
+  }
+  if(digitalRead(3) == HIGH){
+    menuPos = menuPos + 1;
+    menu(menuPos); 
+    delay(100);
+    while(!digitalRead(3));
+  }
+  if(digitalRead(4) == HIGH){
+    delay(100);
+    while(!digitalRead(4));
+  }
 }
