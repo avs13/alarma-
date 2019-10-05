@@ -14,6 +14,8 @@ void setup() {
   oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   pinMode(2,INPUT);
   pinMode(3,INPUT);
+  inicio();
+  menu(menupos);
 }
 void loop() {
 if(digitalRead(2) == HIGH) {
@@ -73,4 +75,15 @@ void menu(int posicion) {
     oled.display();     
     break;
   }
-}//alarma
+}
+
+void inicio(){
+    oled.clearDisplay();      
+    oled.setTextColor(WHITE);    
+    oled.setTextSize(2);      
+    oled.setCursor(0, 0);     
+    oled.print("Bienvenido"); 
+    oled.display();     
+    break;
+    delay(3000);
+}
