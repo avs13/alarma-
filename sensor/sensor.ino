@@ -21,8 +21,14 @@ void setup(){
   pinMode(echo,INPUT);
   pinMode(triger,OUTPUT);
   pinMode(PIR,INPUT);
+
+  radio.begin();
+  radio.openReadingPipe(1, direccion);
+  radio.startListening();
+ 
 }
 void loop(){
+  receiveData();
   alarma();
 }
 void alarma(){
@@ -45,5 +51,16 @@ void pir(){
   }
   else{
     return 0;
+  }
+}
+void receiveData(){
+  if (radio.available()){   
+    radio.read(datos,sizeof(datos));
+    if(datos[0] == 1){
+      stateAlarm == 1;
+    }
+    else {
+      stateAlarm == 0;
+    }
   }
 }
