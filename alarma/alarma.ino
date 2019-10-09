@@ -222,7 +222,8 @@ int menuPos = 1;
 float datos[3];
 int tiempo = 0;
 boolean estado = 0;
-boolean sub_menu = 0;
+byte sub_menu = 0;
+byte sub_menu2 = 1;
 
 
 void setup() {
@@ -331,11 +332,17 @@ void inicio(){
 
 void button(){
   if(digitalRead(UP) == HIGH){
-  
+    if(sub_menu == 0){
     menuPos = menuPos - 1;
     menu(menuPos);  
     Serial.println("UP"); 
     delay(100);
+    } 
+  
+    else{
+      
+    }
+    
     while(1){
       if(digitalRead(UP) == LOW){
         tone(5,4000,50);
@@ -345,12 +352,12 @@ void button(){
         tiempo = 0;
         tone(5,4000,50);
         break;
-      }
+      } 
       tiempo = tiempo + 10;
       delay(10);
     }
-  }
-
+  }f
+// boton "ENTER"
   if(digitalRead(ENTER) == HIGH){
     subMenu();
     delay(100);
@@ -411,7 +418,8 @@ void button(){
 }*/
 void subMenu(){
   if(menuPos == 2){
-    
+    submenu == 2;
+    subMenu2();
   }
   
   if(menuPos == 3){
@@ -460,5 +468,85 @@ void subMenu(){
       estado = 0;
     }
     menu(menuPos);
+  }
+}
+void subMenu2(){
+  switch(submen){
+    case 1: 
+    switch(){
+      case 1:
+        oled.clearDisplay();      
+        oled.setTextColor(WHITE);    
+        oled.setTextSize(2);      
+        oled.setCursor(5, 0);     
+        oled.print("Bienvenido"); 
+        oled.setCursor(10, 20);     
+        oled.print("S.M.P.D.N ");
+        oled.display();   
+      break;
+        oled.clearDisplay();      
+        oled.setTextColor(WHITE);    
+        oled.setTextSize(2);      
+        oled.setCursor(5, 0);     
+        oled.print("Bienvenido"); 
+        oled.setCursor(10, 20);     
+        oled.print("S.M.P.D.N ");
+        oled.display();  
+      case 2:
+        oled.clearDisplay();      
+        oled.setTextColor(WHITE);    
+        oled.setTextSize(2);      
+        oled.setCursor(5, 0);     
+        oled.print("Bienvenido"); 
+        oled.setCursor(10, 20);     
+        oled.print("S.M.P.D.N ");
+        oled.display();  
+      break;
+      case 3:
+        oled.clearDisplay();      
+        oled.setTextColor(WHITE);    
+        oled.setTextSize(2);      
+        oled.setCursor(5, 0);     
+        oled.print("Bienvenido"); 
+        oled.setCursor(10, 20);     
+        oled.print("S.M.P.D.N ");
+        oled.display();  
+      break;
+    }
+    break;
+    case 2:
+        switch(){
+      case 1:
+        oled.clearDisplay();      
+        oled.setTextColor(WHITE);    
+        oled.setTextSize(2);      
+        oled.setCursor(5, 0);     
+        oled.print("Dispositivo 1"); 
+        oled.setCursor(10, 20);     
+        oled.print("S.M.P.D.N ");
+        oled.display();   
+      break;
+        oled.clearDisplay();      
+        oled.setTextColor(WHITE);    
+        oled.setTextSize(2);      
+        oled.setCursor(5, 0);     
+        oled.print("dispositivo 2"); 
+        oled.setCursor(10, 20);     
+        oled.print("S.M.P.D.N ");
+        oled.display();  
+      case 2:
+        oled.clearDisplay();      
+        oled.setTextColor(WHITE);    
+        oled.setTextSize(2);      
+        oled.setCursor(5, 0);     
+        oled.print("dispositivo 3"); 
+        oled.setCursor(10, 20);     
+        oled.print("S.M.P.D.N ");
+        oled.display();  
+      break;
+    }
+    break;
+    case 3: 
+    break;
   }
 }
