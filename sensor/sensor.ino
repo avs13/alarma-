@@ -1,5 +1,4 @@
 #include <SPI.h>
-#include <nrf24l01.h>
 #include <RF24.h>
 #include ultrasonico.h
 #include <EEPROM.h>
