@@ -8,13 +8,13 @@
 #define CE_PIN 9
 #define CSN_PIN 10
 #define PIR 4
-byte direccion[5] = {1,1,1,1,1}
+byte direccion[5] = {1,1,1,1,1};
 RF24 radio(CE_PIN,CSN_PIN);
 float datos[3];
-int datos[3];
-boolean stateAlar == 0;
+boolean stateAlarm = 0;
 float distancia = EEPROM.read(0);
-boolean estado
+boolean estado;
+int distanciaU = 0;
 Ultrasonic ultrasonic;
 
 void setup(){
@@ -36,9 +36,9 @@ void alarma(){
     distanciaU = ultrasonic.distance();
     Serial.println(distancia);
     if(distanciaU > distancia){
-      if(pir() == HIGH){
+      if(PIR == HIGH){
         sendData();
-        stateAlar == 0;
+        stateAlarm == 0;
       }
     }
   }
@@ -46,14 +46,14 @@ void alarma(){
 void sendData(){
   
 }
-void pir(){
+/*void pir(){
   if(digitalRead(PIR) == HIGH){
     return 1;
   }
   else{
     return 0;
   }
-}
+}*/
 void receiveData(){
   if (radio.available()){   
     radio.read(datos,sizeof(datos));
@@ -73,10 +73,10 @@ void receiveData(){
     }
   }
 }
-void autocalibrafro(){
+void autocalibrado(){
   
-  distanci = ultrasonic.distance();
-  EEPROM.write(0,distanci - 10);
-  distancia = EEPROM.read(0);
+  distancia = ultrasonic.distance();
+  EEPROM.write(0,distancia - 10);
+  distanciaU = EEPROM.read(0);
   
 }
