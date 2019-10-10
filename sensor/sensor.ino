@@ -1,6 +1,6 @@
 #include <SPI.h>
 #include <RF24.h>
-#include ultrasonico.h
+#include "ultrasonico.h"
 #include <EEPROM.h>
 #define echo          3
 #define triger        2
@@ -10,12 +10,13 @@
 #define PIR 4
 byte direccion[5] = {1,1,1,1,1}
 RF24 radio(CE_PIN,CSN_PIN);
-
+float datos[3];
 int datos[3];
 boolean stateAlar == 0;
-float distanci;
-
+float distancia = EEPROM.read(0);
+boolean estado
 Ultrasonic ultrasonic;
+
 void setup(){
   pinMode(echo,INPUT);
   pinMode(triger,OUTPUT);
@@ -23,7 +24,7 @@ void setup(){
 
   radio.begin();
   radio.openReadingPipe(1, direccion);
-  radio.startListening();
+  radio.stopListening();
  
 }
 void loop(){
@@ -32,8 +33,9 @@ void loop(){
 }
 void alarma(){
   if(stateAlarm == HIGH){
-    distanci = ultrasonic.distance();
-    if(distancia > distanci){
+    distanciaU = ultrasonic.distance();
+    Serial.println(distancia);
+    if(distanciaU > distancia){
       if(pir() == HIGH){
         sendData();
         stateAlar == 0;
@@ -61,5 +63,20 @@ void receiveData(){
     else {
       stateAlarm == 0;
     }
+    if(datos[1] == 1){
+      autocalibrado();
+      datos[1] = 0;
+    }
+    if(datos[1] == 2){
+      distancia = datos[2];
+      datos[1] == 0;
+    }
   }
+}
+void autocalibrafro(){
+  
+  distanci = ultrasonic.distance();
+  EEPROM.write(0,distanci - 10);
+  distancia = EEPROM.read(0);
+  
 }

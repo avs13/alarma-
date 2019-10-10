@@ -222,9 +222,10 @@ int menuPos = 1;
 float datos[3];
 int tiempo = 0;
 boolean estado = 0;
-byte sub_menu = 0;
-byte sub_menu2 = 1;
-
+int sub_menu = 0;
+int sub_menu2 = 1;
+int submenu = 1;
+int sub = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -340,7 +341,8 @@ void button(){
     } 
   
     else{
-      
+      sub_menu2 = sub_menu2 - 1;
+      subMenu();
     }
     
     while(1){
@@ -348,18 +350,18 @@ void button(){
         tone(5,4000,50);
         break;
       }
-      if(tiempo >= 2000){
+     /* if(tiempo >= 2000){
         tiempo = 0;
         tone(5,4000,50);
         break;
       } 
       tiempo = tiempo + 10;
-      delay(10);
+      delay(10);*/
     }
-  }f
-// boton "ENTER"
+  }
+  // boton "ENTER"
   if(digitalRead(ENTER) == HIGH){
-    subMenu();
+    Enter();
     delay(100);
     while(1){
       if(digitalRead(ENTER) == LOW){
@@ -376,23 +378,33 @@ void button(){
    }
    
   }
+
+
+  //  boton Down
   if(digitalRead(DOWN) == HIGH){
+    if(sub_menu == 0){
     menuPos = menuPos + 1;
     menu(menuPos); 
+    }
+    else{
+      sub_menu2  = sub_menu2 + 1;
+      subMenu();
+    }
     delay(100);
+    
     Serial.println("DOWN");
     while(1){
       if(digitalRead(DOWN) == LOW){
         tone(5,4000,50);
         break;
       }
-      if(tiempo >= 2000){
+      /*if(tiempo >= 2000){
         tiempo = 0;
         tone(5,4000,50);
         break;
       }
       tiempo = tiempo + 10;
-      delay(10);
+      delay(10);*/
    }
     
   }
@@ -416,10 +428,21 @@ void button(){
 }*/
 /*void calibracion(){
 }*/
-void subMenu(){
+void Enter(){
+  if(menuPos == 1){
+    sub_menu = 1;
+    if(sub_menu2 == 3){
+     sub_menu = 0;
+     sub_menu2 = 1;
+     menu(menuPos);  
+    }
+    else{
+    subMenu();
+    }
+  }
   if(menuPos == 2){
-    submenu == 2;
-    subMenu2();
+    sub_menu = 2;
+    subMenu();
   }
   
   if(menuPos == 3){
@@ -470,83 +493,96 @@ void subMenu(){
     menu(menuPos);
   }
 }
-void subMenu2(){
-  switch(submen){
+void subMenu(){
+  switch(sub_menu){
     case 1: 
-    switch(){
-      case 1:
-        oled.clearDisplay();      
-        oled.setTextColor(WHITE);    
-        oled.setTextSize(2);      
-        oled.setCursor(5, 0);     
-        oled.print("Bienvenido"); 
-        oled.setCursor(10, 20);     
-        oled.print("S.M.P.D.N ");
-        oled.display();   
-      break;
-        oled.clearDisplay();      
-        oled.setTextColor(WHITE);    
-        oled.setTextSize(2);      
-        oled.setCursor(5, 0);     
-        oled.print("Bienvenido"); 
-        oled.setCursor(10, 20);     
-        oled.print("S.M.P.D.N ");
-        oled.display();  
-      case 2:
-        oled.clearDisplay();      
-        oled.setTextColor(WHITE);    
-        oled.setTextSize(2);      
-        oled.setCursor(5, 0);     
-        oled.print("Bienvenido"); 
-        oled.setCursor(10, 20);     
-        oled.print("S.M.P.D.N ");
-        oled.display();  
-      break;
-      case 3:
-        oled.clearDisplay();      
-        oled.setTextColor(WHITE);    
-        oled.setTextSize(2);      
-        oled.setCursor(5, 0);     
-        oled.print("Bienvenido"); 
-        oled.setCursor(10, 20);     
-        oled.print("S.M.P.D.N ");
-        oled.display();  
-      break;
-    }
+      configuraciones();
     break;
+    
     case 2:
-        switch(){
-      case 1:
-        oled.clearDisplay();      
-        oled.setTextColor(WHITE);    
-        oled.setTextSize(2);      
-        oled.setCursor(5, 0);     
-        oled.print("Dispositivo 1"); 
-        oled.setCursor(10, 20);     
-        oled.print("S.M.P.D.N ");
-        oled.display();   
-      break;
-        oled.clearDisplay();      
-        oled.setTextColor(WHITE);    
-        oled.setTextSize(2);      
-        oled.setCursor(5, 0);     
-        oled.print("dispositivo 2"); 
-        oled.setCursor(10, 20);     
-        oled.print("S.M.P.D.N ");
-        oled.display();  
-      case 2:
-        oled.clearDisplay();      
-        oled.setTextColor(WHITE);    
-        oled.setTextSize(2);      
-        oled.setCursor(5, 0);     
-        oled.print("dispositivo 3"); 
-        oled.setCursor(10, 20);     
-        oled.print("S.M.P.D.N ");
-        oled.display();  
-      break;
+      switch(sub_menu2){
+        case 0:
+          sub_menu = 1;
+        break;
+        case 1:
+          oled.clearDisplay();      
+          oled.setTextColor(WHITE);    
+          oled.setTextSize(1);      
+          oled.setCursor(0, 0);     
+          oled.print("Dispositivo 1"); 
+          oled.setCursor(0, 20);     
+          oled.print("S.M.P.D.N ");
+          oled.display();   
+        break;
+          oled.clearDisplay();      
+          oled.setTextColor(WHITE);    
+          oled.setTextSize(1);      
+          oled.setCursor(0, 0);     
+          oled.print("dispositivo 2"); 
+          oled.setCursor(0, 20);     
+          oled.print("S.M.P.D.N ");
+          oled.display();  
+        case 2: 
+          oled.clearDisplay();      
+          oled.setTextColor(WHITE);    
+          oled.setTextSize(1);      
+          oled.setCursor(0, 0);     
+          oled.print("dispositivo 3"); 
+          oled.setCursor(0, 20);     
+          oled.print("S.M.P.D.N ");
+          oled.display();  
+        break;
+        case 3:
+          sub_menu = 2;
+        break;
     }
-    break;
-    case 3: 
     break;
   }
+}
+void configuraciones(){
+  switch(sub_menu2){
+        case 0:
+          sub_menu = 1;
+        break;
+        
+        case 1:
+          oled.clearDisplay();      
+          oled.setTextColor(WHITE);    
+          oled.setTextSize(1);      
+          oled.setCursor(05, 0);     
+          oled.print("> ajuste 1"); 
+          oled.setCursor(0, 20);     
+          oled.print("  ajuste 2");
+          oled.display();  
+          Serial.println("case1");
+        break;
+
+        case 2:
+          oled.clearDisplay();      
+          oled.setTextColor(WHITE);    
+          oled.setTextSize(1);      
+          oled.setCursor(0, 0);     
+          oled.print("> ajuste 2"); 
+          oled.setCursor(0, 20);     
+          oled.print(" ajuste 3");
+          oled.display();  
+          Serial.println("case2");
+        break;
+        
+        case 3:
+          oled.clearDisplay();      
+          oled.setTextColor(WHITE);    
+          oled.setTextSize(1);      
+          oled.setCursor(0, 0);     
+          oled.print("> ajuste 3"); 
+          oled.setCursor(0, 20);     
+          oled.print("  ajuste 4 ");
+          oled.display();
+          Serial.println("case3");
+        break;
+        
+        case 4:
+          sub_menu = 3;
+        break;
+      }
 }
