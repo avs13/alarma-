@@ -1,17 +1,3 @@
-
-#include <Wire.h>
-#include <Adafruit_GFX.h>   
-#include <Adafruit_SSD1306.h> 
-#include <EEPROM.h>
-
-#define ANCHO             128
-#define ALTO              64    
-#define OLED_RESET        4
-#define CE_PIN            9
-#define CSN_PIN           10
-#define UP                2
-#define ENTER             3
-#define DOWN              4
 const unsigned char apagado [] PROGMEM = {
   // 'apagado, 40x40px
   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
@@ -213,13 +199,25 @@ const unsigned char dispositivo [] PROGMEM = {
   0x78, 0xf0, 0xff, 0xfe, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
-byte direccion[5] ={'c','a','n','a','l'};
+#include <SPI.h>
+#include <RF24.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>   
+#include <Adafruit_SSD1306.h> 
+#include <EEPROM.h>
 
-//RF24 radio(CE_PIN, CSN_PIN);
-
+#define ANCHO             128
+#define ALTO              64    
+#define OLED_RESET        4
+#define CE_PIN            9
+#define CSN_PIN           10
+#define UP                2
+#define ENTER             3
+#define DOWN              4
+byte direccion[5] ={1,1,1,1,1};
+RF24 radio(CE_PIN, CSN_PIN);
 Adafruit_SSD1306 oled(ANCHO, ALTO, &Wire, OLED_RESET);
 int menuPos = 1;
-float datos[3];
 int tiempo = 0;
 boolean estado = 0;
 int sub_menu = 0;

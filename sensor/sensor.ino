@@ -8,9 +8,10 @@
 #define CE_PIN 9
 #define CSN_PIN 10
 #define PIR 4
+
 byte direccion[5] = {1,1,1,1,1};
 RF24 radio(CE_PIN,CSN_PIN);
-float datos[3];
+int datos[2];
 boolean stateAlarm = 0;
 float distancia = EEPROM.read(0);
 boolean estado;
@@ -24,7 +25,7 @@ void setup(){
 
   radio.begin();
   radio.openReadingPipe(1, direccion);
-  radio.stopListening();
+  radio.startListening();
  
 }
 void loop(){
@@ -57,21 +58,32 @@ void sendData(){
 void receiveData(){
   if (radio.available()){   
     radio.read(datos,sizeof(datos));
-    if(datos[0] == 1){
-      stateAlarm == 1;
+    switch(datos[0]){
+      case 0:
+        stateAlarm == 0;
+      break;
+   
+      case 1:
+        stateAlarm == 1;
+        autocalibrado();
+        datos[1] = 0;
+      break;
+  
+      case 2:
+        autocalibrado();
+        datos[0] == 0;
+        stateAlarm == 0;
+        sendData();
+      break;
+  
+      case 3:
+        distancia = datos[1];
+      break;
+  
     }
-    else {
-      stateAlarm == 0;
-    }
-    if(datos[1] == 1){
-      autocalibrado();
-      datos[1] = 0;
-    }
-    if(datos[1] == 2){
-      distancia = datos[2];
-      datos[1] == 0;
-    }
+
   }
+  
 }
 void autocalibrado(){
   
