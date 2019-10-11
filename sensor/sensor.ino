@@ -12,9 +12,9 @@
 byte direccion[5] = {1,1,1,1,1};
 RF24 radio(CE_PIN,CSN_PIN);
 int datos[2];
-boolean stateAlarm = 0;
+
 float distancia = EEPROM.read(0);
-boolean estado;
+boolean stateAlarm = 0;
 int distanciaU = 0;
 Ultrasonic ultrasonic;
 
@@ -45,16 +45,17 @@ void alarma(){
   }
 }
 void sendData(){
-  
+ radio.stopListening();
+ radio.openwritingPipe(direccion);
+ dato[0] ==  5;
+  while(1){
+    bool ok = radio.write(datos, sizeof(datos));
+    if(ok){
+      break;
+    }
+    delay(20);
+  }
 }
-/*void pir(){
-  if(digitalRead(PIR) == HIGH){
-    return 1;
-  }
-  else{
-    return 0;
-  }
-}*/
 void receiveData(){
   if (radio.available()){   
     radio.read(datos,sizeof(datos));
